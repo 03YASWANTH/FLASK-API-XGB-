@@ -19,5 +19,3 @@ def predict():
     pred_name = model.predict([[input_1,input_2,input_3,input_4,input_5,input_6,input_7,input_8]]).tolist()[0]
     return jsonify({'prediction':pred_name})
     
-if __name__=="__main__":
-    app.run(debug=True)
