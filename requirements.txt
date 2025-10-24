@@ -1,4 +1,4 @@
-python-3.11.8
+python==3.11.8
 blinker==1.7.0
 click==8.1.7
 Flask==3.0.2
@@ -12,4 +12,5 @@ scipy==1.10.1
 Werkzeug==3.0.1
 xgboost==2.0.3
 gunicorn
+
 
