@@ -1,21 +1,21 @@
-from flask import Flask,request,jsonify
+from flask import Flask, request, jsonify
 import pickle
 
-app=Flask(__name__) #Flask object
+app = Flask(__name__)
 
-model = pickle.load(open('xgb.pkl','rb'))
+# Load XGBoost model
+model = pickle.load(open('xgb.pkl', 'rb'))
 
-@app.route('/predict',methods=['GET','POST'])
+@app.route('/predict', methods=['GET', 'POST'])
 def predict():
     query = request.args
-    input_1 = float(query.get('input_1'))
-    input_2 = float(query.get('input_2'))
-    input_3 = float(query.get('input_3'))
-    input_4 = float(query.get('input_4'))
-    input_5 = float(query.get('input_5'))
-    input_6 = float(query.get('input_6'))                  
-    input_7 = float(query.get('input_7'))
-    input_8 = float(query.get('input_8'))
-    pred_name = model.predict([[input_1,input_2,input_3,input_4,input_5,input_6,input_7,input_8]]).tolist()[0]
-    return jsonify({'prediction':pred_name})
-    
+    try:
+        inputs = [float(query.get(f'input_{i}')) for i in range(1, 9)]
+    except (TypeError, ValueError):
+        return jsonify({'error': 'Invalid or missing input parameters'}), 400
+
+    pred_name = model.predict([inputs]).tolist()[0]
+    return jsonify({'prediction': pred_name})
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
